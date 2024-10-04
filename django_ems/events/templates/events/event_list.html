@@ -1,0 +1,12 @@
+<!-- templates/events/event_list.html -->
+
+<h1>Upcoming Events</h1>
+<ul>
+    {% for event in events %}
+        <li>
+            <a href="{% url 'event_detail' event.id %}">{{ event.name }}</a>
+            - {{ event.date }} at {{ event.location }}
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'event_create' %}">Create a New Event</a>

@@ -7,6 +7,7 @@ from .forms import EventForm
 
 def event_list(request):
     events = Event.objects.all()
+    print("Attempting to load template: events/event_list.html")
     return render(request, 'events/event_list.html', {'events': events})
 
 @login_required

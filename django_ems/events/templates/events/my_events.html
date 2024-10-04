@@ -1,0 +1,8 @@
+<!-- templates/events/my_events.html -->
+
+<h1>My Registered Events</h1>
+<ul>
+    {% for registration in registrations %}
+        <li>{{ registration.event.name }} - {{ registration.event.date }}</li>
+    {% endfor %}
+</ul>
