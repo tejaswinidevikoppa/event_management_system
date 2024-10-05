@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Event, Registration
 from .forms import EventForm
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login as auth_login
 
 def event_list(request):
     events = Event.objects.all()
@@ -38,3 +40,14 @@ def register_for_event(request, event_id):
 def my_events(request):
     registrations = Registration.objects.filter(user=request.user)
     return render(request, 'events/my_events.html', {'registrations': registrations})
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth_login(request, user)
+            return redirect('event_list')  # Redirect to the event list after signing up
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
