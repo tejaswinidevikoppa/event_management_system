@@ -17,7 +17,7 @@ def event_list(request):
 def event_create(request):
     if request.method == 'POST':
         form = EventForm(request.POST)
-        if form.isValid():
+        if form.is_valid():
             event = form.save(commit=False)
             event.created_by = request.user
             event.save()

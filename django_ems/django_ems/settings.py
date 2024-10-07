@@ -53,6 +53,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'django_ems.urls'
+LOGIN_REDIRECT_URL = '/'
+
 
 # settings.py
 
