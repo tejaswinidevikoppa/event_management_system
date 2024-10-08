@@ -14,17 +14,25 @@ def event_list(request):
     return render(request, 'events/event_list.html', {'events': events})
 
 @login_required
-def event_create(request):
+def update_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    if request.user != event.organizer:
+        return redirect('event_list')  # redirect if not authorized
     if request.method == 'POST':
-        form = EventForm(request.POST)
+        form = EventForm(request.POST, instance=event)
         if form.is_valid():
-            event = form.save(commit=False)
-            event.created_by = request.user
-            event.save()
-            return redirect('event_list')
+            form.save()
+            return redirect('event_detail', event_id=event.id)
     else:
-        form = EventForm()
-    return render(request, 'events/event_create.html', {'form': form})
+        form = EventForm(instance=event)
+    return render(request, 'events/event_form.html', {'form': form})
+
+@login_required
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    if request.user == event.organizer:
+        event.delete()
+    return redirect('event_list')
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, pk=event_id)

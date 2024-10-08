@@ -24,5 +24,8 @@ urlpatterns = [
     path('events/', include('events.urls')),  # Event app's URLs
     path('accounts/', include('django.contrib.auth.urls')),  # Authentication URLs
     path('', lambda request: redirect('events/')),  # Redirect root URL to /events/
+    path('accounts/', include('allauth.urls')),
 ]
+
+
 
