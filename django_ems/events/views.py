@@ -59,3 +59,10 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+@login_required
+def event_dashboard(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    registrations = EventRegistration.objects.filter(event=event)
+    return render(request, 'events/dashboard.html', {'event': event, 'registrations': registrations})
+

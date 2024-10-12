@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.decorators import login_required
 
+
 @login_required
 def dashboard(request):
     return render(request, 'events/dashboard.html')
@@ -48,3 +49,12 @@ class CustomUser(AbstractUser):
         help_text='Specific permissions for this user.',
         verbose_name='user permissions',
     )
+    class EventRating(models.Model):
+       event = models.ForeignKey(Event, on_delete=models.CASCADE)
+       user = models.ForeignKey(User, on_delete=models.CASCADE)
+       rating = models.PositiveIntegerField(default=0)  # Rating from 1 to 5
+       review = models.TextField(blank=True)  # Optional review text
+       rated_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} rated {self.event.name} with {self.rating}/5"
