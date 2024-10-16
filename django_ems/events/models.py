@@ -1,5 +1,4 @@
 
-# Create your models here.
 # events/models.py
 from django.db import models
 
